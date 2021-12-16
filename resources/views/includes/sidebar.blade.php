@@ -32,7 +32,7 @@
                 <div id="collapseTwo" class="collapse {{ Request::is('user/pemasaran*') ? 'show' : '' }}  {{ Request::is('user/laporan-penjualan-product*') ? ' show' :  '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">LAPORAN</h6>
-                        <a class="collapse-item {{ Request::is('user/laporan-penjualan-product*') ? ' active' : '' }}""  href="{{ route('laporan-penjualan-product.index') }}">PENJUALAN PRODUCT</a>
+                        <a class="collapse-item {{ Request::is('user/laporan-penjualan-product*') ? ' active' : '' }}"  href="{{ route('laporan-penjualan-product.index') }}">PENJUALAN PRODUCT</a>
                         <a class="collapse-item {{ Request::is('user/pemasaran*') ? ' active' : '' }}" href="{{ route('pemasaran.index') }}">KEGIATAN PENJUALAN</a>
                     </div>
                 </div>

@@ -44,7 +44,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('pages.mitra.u+sers.create');
+        return view('pages.mitra.users.create');
     }
 
     /**

@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Mitra\DashboardController as MitraDashboardController;
+use App\Http\Controllers\Mitra\PemasaranController;
+use App\Http\Controllers\Mitra\ProductController as MitraProductController;
 use App\Http\Controllers\Mitra\StatusUmkmController;
+use App\Http\Controllers\Mitra\TransactionController;
 use App\Http\Controllers\Mitra\UserController;
 use App\Http\Controllers\User\BahanController;
 use App\Http\Controllers\User\CertificateController;
@@ -57,6 +60,10 @@ Route::prefix('mitra')
             Route::get('/dashboard', [MitraDashboardController::class,'index'])->name('rb');
             Route::resource('status-umkm',StatusUmkmController::class);
             Route::resource('users',UserController::class);
+            Route::resource('products-mitra',MitraProductController::class);
+            Route::resource('transactions',TransactionController::class);
+            Route::get('transactions-date',[TransactionController::class,'TransactionLaporan'])->name('transactions-mitra');
+            Route::resource('pemasaran-mitra',PemasaranController::class);
 
            
 

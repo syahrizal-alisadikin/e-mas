@@ -26,12 +26,14 @@
                     <i class="fas fa-dollar-sign"></i>
                     <span>MITRA BINAAN</span>
                 </a>
-                <div id="collapseTwo" class="collapse {{ Request::is('mitra/users*') ? 'show' : '' }} " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo" class="collapse {{ Request::is('mitra/users*') ? 'show' : '' }} {{ Request::is('mitra/products-mitra*') ? 'show' : '' }} {{ Request::is('mitra/pemasaran-mitra*') ? 'show' : '' }}{{ Request::is('mitra/transactions*') ? 'show' : '' }} " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         {{-- <h6 class="collapse-header">MPT</h6> --}}
                         <a class="collapse-item {{ Request::is('mitra/users*') ? ' active' : '' }}"  href="{{ route('users.index') }}">MITRA</a>
-                        <a class="collapse-item {{ Request::is('mitra/pemasaran*') ? ' active' : '' }}" href="{{ route('pemasaran.index') }}">PRODUCT</a>
-                        <a class="collapse-item {{ Request::is('mitra/pemasaran*') ? ' active' : '' }}" href="{{ route('pemasaran.index') }}">TRANSAKSI</a>
+                        <a class="collapse-item {{ Request::is('mitra/products-mitra*') ? ' active' : '' }}" href="{{ route('products-mitra.index') }}">PRODUCT</a>
+                        <a class="collapse-item {{ Request::is('mitra/transactions*') ? ' active' : '' }}" href="{{ route('transactions.index') }}">TRANSAKSI</a>
+                        <a class="collapse-item {{ Request::is('mitra/pemasaran-mitra*') ? ' active' : '' }}" href="{{ route('pemasaran-mitra.index') }}">KEGIATAN PENJUALAN</a>
+                    
                     </div>
                 </div>
             </li>
