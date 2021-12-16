@@ -20,7 +20,21 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
+                   <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>MITRA BINAAN</span>
+                </a>
+                <div id="collapseTwo" class="collapse {{ Request::is('mitra/users*') ? 'show' : '' }} " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        {{-- <h6 class="collapse-header">MPT</h6> --}}
+                        <a class="collapse-item {{ Request::is('mitra/users*') ? ' active' : '' }}"  href="{{ route('users.index') }}">MITRA</a>
+                        <a class="collapse-item {{ Request::is('mitra/pemasaran*') ? ' active' : '' }}" href="{{ route('pemasaran.index') }}">PRODUCT</a>
+                        <a class="collapse-item {{ Request::is('mitra/pemasaran*') ? ' active' : '' }}" href="{{ route('pemasaran.index') }}">TRANSAKSI</a>
+                    </div>
+                </div>
+            </li>
             <li class="nav-item {{ Request::is('mitra/status-umkm') ? ' active' : '' }}">
                 <a class="nav-link" href="{{ route('status-umkm.index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>

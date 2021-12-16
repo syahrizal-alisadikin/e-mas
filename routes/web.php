@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Mitra\DashboardController as MitraDashboardController;
 use App\Http\Controllers\Mitra\StatusUmkmController;
+use App\Http\Controllers\Mitra\UserController;
 use App\Http\Controllers\User\BahanController;
 use App\Http\Controllers\User\CertificateController;
 use App\Http\Controllers\User\DashboardController;
@@ -36,6 +37,7 @@ Route::prefix('user')
             Route::get('sertifikasi',[DashboardController::class,'sertifikasi'])->name('user.sertifikasi');
             Route::POST('sertificate',[CertificateController::class,'store'])->name('certificate.store');
             Route::PUT('profile/update/{id}',[DashboardController::class,'updateProfile'])->name('user.update');
+            Route::PUT('profile/status/{id}',[DashboardController::class,'updateStatus'])->name('user.status-update');
 
             // Penjualan Product
             Route::resource('laporan-penjualan-product',LaporanPenjualanController::class);
@@ -54,6 +56,7 @@ Route::prefix('mitra')
         ->group(function () {
             Route::get('/dashboard', [MitraDashboardController::class,'index'])->name('rb');
             Route::resource('status-umkm',StatusUmkmController::class);
+            Route::resource('users',UserController::class);
 
            
 

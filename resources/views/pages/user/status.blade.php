@@ -12,13 +12,17 @@
                                         Status  User
                                     </div>
                                     <div class="card-body">
-                                        <form action="{{route('user.update',$user->id)}}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{route('user.status-update',$user->id)}}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
                                             <div class="form-group">
-                                                <label for="name">Nama</label>
-                                                <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" value="{{$user->name}}">
-                                                     @error('name')
+                                                <label for="name">Status Mitra</label>
+                                                <select name="status_id" required class="form-control" id="">
+                                                    @foreach ($status as $item)
+                                                        <option value="{{ $item->id }}" {{ $item->id == $user->status_id ? "selected" : '' }}>{{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                     @error('status_id')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>
                                                         </span>

@@ -25,6 +25,8 @@ class User extends Authenticatable
         'pemilik',
         'roles',
         'phone',
+        'status_id',
+        'rb_id',
         'password',
     ];
 
@@ -46,4 +48,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function status()
+    {
+        return $this->hasOne(StatusUmkm::class,'id','status_id');
+    }
 }

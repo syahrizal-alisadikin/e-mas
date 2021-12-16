@@ -53,6 +53,20 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group">
+                                                <label for="rumah">Rumah BUMN</label>
+                                    <select name="rb_id" id="" class="form-control ">
+                                        <option value="">Pilih Rumah BUMN</option>
+                                        @foreach ($rb as $item)
+                                        <option value="{{ $item->id }}" {{ $item->id == $user->rb_id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                            
+                                        @endforeach
+                                    </select>
+                                          @error('rb')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                            <div class="form-group mt-2">
                                                 <label for="alamat">Alamat</label>
                                                 <input type="text" name="alamat" id="alamat" class="form-control @error('alamat') is-invalid @enderror" value="{{$user->alamat}}">
                                                  @error('phone')

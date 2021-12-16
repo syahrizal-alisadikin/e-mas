@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Certification;
+use App\Models\StatusUmkm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -18,8 +19,9 @@ class DashboardController extends Controller
 
     public function profile()
     {
+        $rb = User::where('roles','RB')->get();
         $user = Auth::user();
-        return view('pages.user.profile',compact('user'));
+        return view('pages.user.profile',compact('user','rb'));
     }
 
     public function updateProfile(Request $request,$id)
@@ -55,6 +57,8 @@ class DashboardController extends Controller
             $user->phone         = $request->phone;
             $user->password      = Hash::make($request['password']);
             $user->pemilik = $request->pemilik;
+            $user->rb_id = $request->rb_id;
+
             $user->alamat        = $request->alamat;
         } else {
             $this->validate(
@@ -81,6 +85,7 @@ class DashboardController extends Controller
             $user->email         = $request->email;
             $user->phone         = $request->phone;
             $user->pemilik = $request->pemilik;
+            $user->rb_id = $request->rb_id;
             $user->alamat        = $request->alamat;
         }
         $user->update();
@@ -89,8 +94,19 @@ class DashboardController extends Controller
 
     public function status()
     {
+        $status = StatusUmkm::all();
         $user = Auth::user();
-        return view('pages.user.status',compact('user'));
+        return view('pages.user.status',compact('status','user'));
+    }
+
+    public function updateStatus($id)
+    {
+        $user = Auth::user();
+        $user->update([
+            'status_id' => request()->status_id
+        ]);
+
+        return redirect()->route('user.status')->with('success','Berhasil disimpan!!');
     }
 
     public function sertifikasi()
