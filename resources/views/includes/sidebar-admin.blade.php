@@ -29,7 +29,7 @@
                     <i class="fas fa-dollar-sign"></i>
                     <span>LAPORAN</span>
                 </a>
-                <div id="collapseTwo" class="collapse {{ Request::is('user/pemasaran*') ? 'show' : '' }}  {{ Request::is('admin/rumah-bumn*') ? ' show' :  '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo" class="collapse {{ Request::is('user/mitra-admin*') ? 'show' : '' }}  {{ Request::is('admin/rumah-bumn*') ? ' show' :  '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">LAPORAN RB & UMKM</h6>
                         <a class="collapse-item {{ Request::is('admin/rumah-bumn*') ? ' active' : '' }}"  href="{{ route('rumah-bumn.index') }}">RUMAH BUMN</a>
