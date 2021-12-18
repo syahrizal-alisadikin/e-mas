@@ -19,6 +19,12 @@
   <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script src="{{ asset('asset/js/sweetalert.min.js') }}"></script>  
  <script>
+   $(document).ready(function()
+   {
+ $('#tooltip').tooltip({ boundary: 'window' })
+
+   })
+ 
     //sweetalert for success or error message
     @if(session()->has('success'))
         swal({

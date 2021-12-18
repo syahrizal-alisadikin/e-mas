@@ -8,6 +8,7 @@ use DataTables;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -117,6 +118,32 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+
+          $this->validate(
+                $request,
+                [
+                    'name'    => [
+                        'required',
+                        Rule::unique('users')->ignore($user->id, 'id'),
+
+
+                    ],
+                    'phone'    => [
+                        'required',
+                        Rule::unique('users')->ignore($user->id, 'id'),
+
+
+                    ],
+                    'email'    => [
+                        'required',
+                        Rule::unique('users')->ignore($user->id, 'id'),
+
+
+                    ],
+                    
+                ]
+            );
+        
         $user->update([
                 'name' => $request->name,
                 'phone' => $request->phone,

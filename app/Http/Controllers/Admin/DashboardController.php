@@ -9,6 +9,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return "ini admin";
+        return view('pages.admin.dashboard');
+
     }
 }

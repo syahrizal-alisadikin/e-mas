@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\RumahBUMNController;
 use App\Http\Controllers\Mitra\DashboardController as MitraDashboardController;
 use App\Http\Controllers\Mitra\PemasaranController;
 use App\Http\Controllers\Mitra\ProductController as MitraProductController;
@@ -72,9 +73,13 @@ Route::prefix('admin')
         ->middleware('IsAdmin')
         ->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class,'index'])->name('admin');
-
+            Route::resource('rumah-bumn',RumahBUMNController::class);
+            Route::get('rumah-bumn/produk/{id}',[RumahBUMNController::class,'ShowProduk'])->name('rumah-bumn.produk');
+            Route::get('rumah-bumn/pemasaran/{id}',[RumahBUMNController::class,'ShowPemasaran'])->name('rumah-bumn.pemasaran');
+            Route::get('rumah-bumn/transaksi/{id}',[RumahBUMNController::class,'ShowTransaksi'])->name('rumah-bumn.transaksi');
+            Route::get('rumah-bumn/transaksi/detail/{id}/{user}',[RumahBUMNController::class,'DetailTransaksi'])->name('rumah-bumn.detailtransaksi');
+            Route::get('mitra-admin',[RumahBUMNController::class,'MitraAdmin'])->name('mitra-admin');
            
         });
 Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
