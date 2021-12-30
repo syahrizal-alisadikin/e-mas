@@ -31,9 +31,12 @@ class TransactionController extends Controller
 
                     return dateID($data->tanggal);
                 })
-                
+                ->addColumn('harga', function ($data) {
+
+                    return moneyFormat($data->product->harga);
+                })
                 ->addIndexColumn()
-                ->rawColumns(['total','tanggal'])
+                ->rawColumns(['total','tanggal','harga'])
                 ->make(true);
         }
 
@@ -141,9 +144,12 @@ class TransactionController extends Controller
 
                     return dateID($data->created_at);
                 })
-                
+                 ->addColumn('harga', function ($data) {
+
+                    return moneyFormat($data->product->harga);
+                })                
                 ->addIndexColumn()
-                ->rawColumns(['total','tanggal'])
+                ->rawColumns(['total','tanggal','harga'])
                 ->make(true);
         }
 

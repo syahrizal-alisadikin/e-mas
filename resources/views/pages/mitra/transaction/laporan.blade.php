@@ -36,6 +36,7 @@
                                 <tr class="text-center">
                                     <th>No</th>
                                     <th>Name</th>
+                                    <th>Harga</th>
                                     <th>Quantity</th>
                                     <th>Total</th>
                                     <th>Tanggal</th>
@@ -81,6 +82,7 @@
             columns: [
                 { data: 'DT_RowIndex', name:'DT_RowIndex'},
                 { data: 'product.name', name: 'name' },
+                { data: 'harga', name: 'harga' },
                 { data: 'quantity', name: 'quantity' },
                 { data: 'total', name: 'total' },
                 { data: 'tanggal', name: 'tanggal' },
