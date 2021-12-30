@@ -35,6 +35,7 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
+                                    <th>UMKM</th>
                                     <th>Name</th>
                                     <th>Harga</th>
                                     <th>Quantity</th>
@@ -81,7 +82,8 @@
          
             columns: [
                 { data: 'DT_RowIndex', name:'DT_RowIndex'},
-                { data: 'product.name', name: 'name' },
+                { data: 'user.name', name: 'user.name' },
+                { data: 'product.name', name: 'product.name' },
                 { data: 'harga', name: 'harga' },
                 { data: 'quantity', name: 'quantity' },
                 { data: 'total', name: 'total' },
@@ -111,6 +113,14 @@
             }, 
              {
                 "targets": 4, // your case first column
+                "className": "text-center",
+            }, 
+            {
+                "targets": 5, // your case first column
+                "className": "text-center",
+            }, 
+            {
+                "targets": 6, // your case first column
                 "className": "text-center",
             }, 
           
