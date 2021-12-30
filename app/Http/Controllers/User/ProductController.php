@@ -43,8 +43,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        $modal = Modal::where('user_id',Auth::user()->id)->get();
-        return view('pages.user.product.create',compact('modal'));
+        // $modal = Modal::where('user_id',Auth::user()->id)->get();
+        return view('pages.user.product.create');
 
     }
 
@@ -54,6 +54,7 @@ class ProductController extends Controller
                 $request,
                 [
                     'name'    => 'required',
+                    'modal'    => 'required',
                     'harga'    => 'required',
                     'stok'    => 'required',
                     'foto'    => 'required|image|mimes:jpg,png',
@@ -64,8 +65,8 @@ class ProductController extends Controller
         Product::create([
             'user_id' => Auth::user()->id,
             'name' => $request->name,
-            'modal_id' => $request->modal,
-            'modal' => $request->modalProduct,
+            // 'modal_id' => $request->modal,
+            'modal' => $request->modal,
             'harga' => $request->harga,
             'stok' => $request->stok,
             'foto' => $file->hashName()

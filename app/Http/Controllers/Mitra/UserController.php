@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Models\User;
+use App\Models\StatusUmkm;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -45,7 +46,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('pages.mitra.users.create');
+        $status = StatusUmkm::all();
+
+        return view('pages.mitra.users.create',compact('status'));
     }
 
     /**
@@ -77,6 +80,7 @@ class UserController extends Controller
                 'alamat' => $request->alamat,
                 'roles' => "MB",
                 'rb_id' => Auth::user()->id,
+                'status_id' => $request->status_id,
                 'password' => Hash::make($request->password),
             ]);
 
@@ -103,8 +107,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+        $status = StatusUmkm::all();
 
-        return view('pages.mitra.users.edit',compact('user'));
+        return view('pages.mitra.users.edit',compact('user','status'));
 
     }
 
@@ -150,6 +155,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'pemilik' => $request->pemilik,
                 'alamat' => $request->alamat,
+                'status_id' => $request->status_id
         ]);
         return redirect()->route('users.index')->with('success','data berhasil disimpan!!');
 

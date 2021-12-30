@@ -15,6 +15,10 @@
                                         <form action="{{route('user.update',$user->id)}}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
+                                             <div class="form-group">
+                                                <label for="name">Status</label>
+                                                <a href="javascript:void(0)" class="btn btn-success btn-sm ml-2">{{ $user->status->name ?? "-" }}</a>
+                                            </div>
                                             <div class="form-group">
                                                 <label for="name">Nama</label>
                                                 <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" value="{{$user->name}}">
@@ -95,7 +99,8 @@
                                 </div>
                                             
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-success">Update Data</button>
+                                                <button type="submit" class="btn btn-success">Simpan Data</button>
+                                                <a href="{{ url('user/dashboard') }}" class="btn btn-success">Batal</a>
                                             </div>
                                         </form>
                                     </div>

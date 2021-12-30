@@ -47,8 +47,9 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">PRODUK & MODAL</h6>
                         <a class="collapse-item {{ Request::is('user/products*') ? ' active' : '' }}" href="{{ route('products.index') }}">PRODUK</a>
-                        <a class="collapse-item {{ Request::is('user/modal*') ? ' active' : '' }}" href="{{ route('modal.index') }}">MODAL</a>
-                        <a class="collapse-item {{ Request::is('user/bahan-product*') ? ' active' : '' }}" href="{{ route('bahan-product.index') }}">BAHAN</a>
+                        <a class="collapse-item " href="javasript:void(0)">DATA ASET</a>
+                        {{-- <a class="collapse-item {{ Request::is('user/modal*') ? ' active' : '' }}" href="{{ route('modal.index') }}">MODAL</a>
+                        <a class="collapse-item {{ Request::is('user/bahan-product*') ? ' active' : '' }}" href="{{ route('bahan-product.index') }}">BAHAN</a> --}}
                     
                     </div>
                 </div>
@@ -68,7 +69,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">PROFILE & STATUS</h6>
                         <a class="collapse-item {{ Request::is('user/profile') ? ' active' : '' }}" href="{{ route('user.profile') }}">PROFILE</a>
-                        <a class="collapse-item {{ Request::is('user/status') ? ' active' : '' }}" href="{{ route('user.status') }}">STATUS</a>
+                        {{-- <a class="collapse-item {{ Request::is('user/status') ? ' active' : '' }}" href="{{ route('user.status') }}">STATUS</a> --}}
                         <a class="collapse-item {{ Request::is('user/sertifikasi') ? ' active' : '' }}" href="{{ route('user.sertifikasi') }}">SERTIFIKASI</a>
                     </div>
                 </div>

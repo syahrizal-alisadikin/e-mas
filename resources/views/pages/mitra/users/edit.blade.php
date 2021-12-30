@@ -70,7 +70,19 @@
                                     </span>
                                 @enderror
                                 </div>
-                                 
+                                   <div class="form-group">
+                                                <label for="name">Status Mitra</label>
+                                                <select name="status_id" required class="form-control" id="">
+                                                    @foreach ($status as $item)
+                                                        <option value="{{ $item->id }}" {{ $item->id == $user->status_id ? "selected" : '' }}>{{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                     @error('status_id')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                            </div>
                                 <button type="submit" class="btn btn-primary   btn-block">
                                     Edit Mitra
                                 </button>

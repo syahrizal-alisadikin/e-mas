@@ -21,6 +21,7 @@ class DashboardController extends Controller
     {
         $rb = User::where('roles','RB')->get();
         $user = Auth::user();
+        
         return view('pages.user.profile',compact('user','rb'));
     }
 
