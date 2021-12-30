@@ -5,16 +5,32 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Certification;
 use App\Models\StatusUmkm;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('pages.user.dashboard');
+        
+ 
+         //year and month
+        $year   = date('Y');
+        $month  = date('m');
+        $day    = date('d');
+		
+        //statistic revenue
+        $revenueDay = Transaction::where('user_id', Auth::user()->id)->whereDay('created_at', '=', $day)->whereMonth('created_at', '=', $month)->whereYear('created_at', $year)->sum('total');
+        $revenueMonth = Transaction::where('user_id', Auth::user()->id)->whereMonth('created_at', '=', $month)->whereYear('created_at', $year)->sum('total');
+        $revenueYear  = Transaction::where('user_id', Auth::user()->id)->whereYear('created_at', $year)->sum('total');
+        $revenueAll   = Transaction::where('user_id', Auth::user()->id)->sum('total');
+ 
+        return view('pages.user.dashboard',compact('revenueDay','revenueMonth','revenueYear','revenueAll'));
     }
 
     public function profile()

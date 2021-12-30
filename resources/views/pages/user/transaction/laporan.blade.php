@@ -45,6 +45,13 @@
                             </thead>
                             
                         </table>
+                         Total Transaksi {{ moneyFormat($totalTransaksi) }} <br>
+                            <form action="{{ route('transaksi-date-download-pdf') }}" method="GET">
+                                        <input type="hidden" name="start" value="{{ request()->start }}" required class="form-control" placeholder="First name">
+                                        <input type="hidden" name="end" value="{{ request()->end }}" required class="form-control" placeholder="Last name">
+
+                                        <button type="submit" class="btn btn-primary">Download PDF</button>
+                            </form>
                     </div>
                 </div>
             </div>

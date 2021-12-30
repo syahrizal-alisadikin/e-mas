@@ -34,6 +34,7 @@
                                 <tr class="text-center">
                                     <th>No</th>
                                     <th>Name</th>
+                                    <th>Harga</th>
                                     <th>Quantity</th>
                                     <th>Total</th>
                                     <th>Tanggal</th>
@@ -43,6 +44,10 @@
                             </thead>
                             
                         </table>
+                        <div class="ml-auto">
+                            Total Transaksi {{ moneyFormat($totalTransaksi) }} <br>
+                            <a href="{{ route('transaksi-download-pdf') }}" target="_blank" class="btn btn-primary">Download PDF</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,6 +74,7 @@
             columns: [
                 { data: 'DT_RowIndex', name:'DT_RowIndex'},
                 { data: 'product.name', name: 'product.name' },
+                { data: 'product.harga', name: 'product.name' },
                 { data: 'quantity', name: 'quantity' },
                 { data: 'total', name: 'quantity' },
                 { data: 'tanggal', name: 'quantity' },

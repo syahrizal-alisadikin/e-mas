@@ -11,6 +11,7 @@ use App\Http\Controllers\Mitra\UserController;
 use App\Http\Controllers\User\BahanController;
 use App\Http\Controllers\User\CertificateController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\DataAsetController;
 use App\Http\Controllers\User\LaporanPenjualanController;
 use App\Http\Controllers\User\ModalController;
 use App\Http\Controllers\User\PemsaranController;
@@ -37,15 +38,17 @@ Route::prefix('user')
             Route::get('/dashboard', [DashboardController::class,'index'])->name('user');
 
             Route::get('profile',[DashboardController::class,'profile'])->name('user.profile');
-            Route::get('status',[DashboardController::class,'status'])->name('user.status');
+            // Route::get('status',[DashboardController::class,'status'])->name('user.status');
             Route::get('sertifikasi',[DashboardController::class,'sertifikasi'])->name('user.sertifikasi');
             Route::POST('sertificate',[CertificateController::class,'store'])->name('certificate.store');
             Route::PUT('profile/update/{id}',[DashboardController::class,'updateProfile'])->name('user.update');
             Route::PUT('profile/status/{id}',[DashboardController::class,'updateStatus'])->name('user.status-update');
-
+            Route::resource('data-aset',DataAsetController::class);
             // Penjualan Product
             Route::resource('laporan-penjualan-product',LaporanPenjualanController::class);
             Route::get('laporan-penjualan-product-date',[LaporanPenjualanController::class,'TransactionLaporan'])->name('transaction-laporan');
+            Route::get('transaksi-download-pdf',[LaporanPenjualanController::class,'TransaksiPdf'])->name('transaksi-download-pdf');
+            Route::get('transaksi-date-download-pdf',[LaporanPenjualanController::class,'TransaksiPdfdate'])->name('transaksi-date-download-pdf');
             // Pemsaran Kegiatan
             Route::resource('pemasaran',PemsaranController::class);
             // Product

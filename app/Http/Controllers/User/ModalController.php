@@ -14,9 +14,7 @@ class ModalController extends Controller
     public function index()
     {
          if(request()->ajax()){
-//             $bahan = Modal::where('user_id',Auth::user()->id)->with(['bahan' => function($query){
-//    $query->select(DB::raw("SUM(harga) as modal"));
-// }] )->latest()->get();
+//             
         $bahan = Modal::where('user_id',Auth::user()->id)->with('bahan')->latest()->get();
             return Datatables::of($bahan)
                   ->addColumn('jumlah', function ($data) {

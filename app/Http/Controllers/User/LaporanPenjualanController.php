@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use DataTables;
-
+use PDF;
 use Illuminate\Support\Facades\Auth;
 class LaporanPenjualanController extends Controller
 {
@@ -31,7 +31,9 @@ class LaporanPenjualanController extends Controller
                 ->make(true);
         }
 
-        return view('pages.user.transaction.index');
+        $totalTransaksi = Transaction::where('user_id',Auth::user()->id)->sum('total');
+
+        return view('pages.user.transaction.index',compact('totalTransaksi'));
 
 
 
@@ -77,9 +79,10 @@ class LaporanPenjualanController extends Controller
             $end = $request->input('end');
             $data = [$start,$end];
           
-            $transaksi = Transaction::whereBetween('tanggal', $data)->with('user','product')->latest()->get();
+            $transaksi = Transaction::where('user_id',Auth::user()->id)->whereBetween('tanggal', $data)->with('user','product')->latest()->get();
             // dd($transaksi);
             return Datatables::of($transaksi)
+                ->addIndexColumn()
                 ->addColumn('total', function ($data) {
 
                     return moneyFormat($data->total);
@@ -88,12 +91,34 @@ class LaporanPenjualanController extends Controller
 
                     return dateID($data->created_at);
                 })
-                
-                ->addIndexColumn()
                 ->rawColumns(['total','tanggal'])
                 ->make(true);
         }
+        $totalTransaksi = Transaction::where('user_id',Auth::user()->id)->sum('total');
 
-        return view('pages.user.transaction.laporan');
+
+        return view('pages.user.transaction.laporan',compact('totalTransaksi'));
     }
+
+    public function TransaksiPdf()
+    {
+        $transaksi = Transaction::where('user_id',Auth::user()->id)->with('user','product')->latest()->get();
+        $totalTransaksi = Transaction::where('user_id',Auth::user()->id)->sum('total');
+        $pdf = PDF::loadView('pdf.transaksi-user', compact('transaksi','totalTransaksi'));
+        return $pdf->stream('transaksi.pdf');
+    }
+
+    public function TransaksiPdfDate(Request $request)
+    {
+            $start = $request->input('start');
+            $end = $request->input('end');
+            $data = [$start,$end];
+          
+            $transaksi = Transaction::where('user_id',Auth::user()->id)->whereBetween('tanggal', $data)->with('user','product')->latest()->get();
+            $totalTransaksi = Transaction::where('user_id',Auth::user()->id)->whereBetween('tanggal', $data)->with('user','product')->sum('total');
+            $pdf = PDF::loadView('pdf.transaksi-user', compact('transaksi','totalTransaksi'));
+            return $pdf->stream('transaksi.pdf');
+            
+    }
+
 }
