@@ -102,8 +102,8 @@ class ProductController extends Controller
                 $product->update([
                     'user_id' => Auth::user()->id,
                     'name' => $request->name,
-                    'modal_id' => $request->modal,
-                    'modal' => $request->modalProduct,
+                    // 'modal_id' => $request->modal,
+                    'modal' => $request->modal,
                     'harga' => $request->harga,
                     'stok' => $request->stok,
                     'foto' => $file->hashName(),
