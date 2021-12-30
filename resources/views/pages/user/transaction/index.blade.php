@@ -74,7 +74,7 @@
             columns: [
                 { data: 'DT_RowIndex', name:'DT_RowIndex'},
                 { data: 'product.name', name: 'product.name' },
-                { data: 'product.harga', name: 'product.name' },
+                { data: 'harga', name: 'harga' },
                 { data: 'quantity', name: 'quantity' },
                 { data: 'total', name: 'quantity' },
                 { data: 'tanggal', name: 'quantity' },
@@ -105,6 +105,10 @@
                 "targets": 4, // your case first column
                 "className": "text-center",
             }, 
+            {
+                "targets": 5, // your case first column
+                "className": "text-center",
+            },
           
         ]
            

@@ -21,13 +21,17 @@ class LaporanPenjualanController extends Controller
 
                     return moneyFormat($data->total);
                 })
+                ->addColumn('harga', function ($data) {
+
+                    return moneyFormat($data->product->harga);
+                })
                 ->addColumn('tanggal', function ($data) {
 
                     return dateID($data->tanggal);
                 })
                 
                 ->addIndexColumn()
-                ->rawColumns(['total','tanggal'])
+                ->rawColumns(['total','tanggal','harga'])
                 ->make(true);
         }
 
@@ -87,11 +91,16 @@ class LaporanPenjualanController extends Controller
 
                     return moneyFormat($data->total);
                 })
+                ->addColumn('harga', function ($data) {
+
+                    return moneyFormat($data->product->harga);
+
+                })
                 ->addColumn('tanggal', function ($data) {
 
                     return dateID($data->created_at);
                 })
-                ->rawColumns(['total','tanggal'])
+                ->rawColumns(['total','tanggal','harga'])
                 ->make(true);
         }
         $totalTransaksi = Transaction::where('user_id',Auth::user()->id)->sum('total');
