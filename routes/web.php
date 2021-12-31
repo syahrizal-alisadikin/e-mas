@@ -67,6 +67,8 @@ Route::prefix('mitra')
             Route::resource('products-mitra',MitraProductController::class);
             Route::resource('transactions',TransactionController::class);
             Route::get('transactions-date',[TransactionController::class,'TransactionLaporan'])->name('transactions-mitra');
+            Route::POST('transactions-rb',[TransactionController::class,'TransaksiDownloadPdf'])->name('transaksi-rb-download-pdf');
+            Route::POST('transactions-rb-date',[TransactionController::class,'TransaksiDownloadPdfDate'])->name('transaksi-rb-download-date');
             Route::resource('pemasaran-mitra',PemasaranController::class);
 
            

@@ -12,6 +12,7 @@
                                         <div class="col">
                                             <label for="">Tanggal Akhir</label>
 
+                                        <input type="hidden" name="user_id" id="user_id" value="{{ request()->user_id }}" required class="form-control" >
                                         <input type="date" name="end" value="{{ request()->end }}" required class="form-control" placeholder="Last name">
                                         </div>
                                         <div class="col">
@@ -47,6 +48,19 @@
                             </thead>
                             
                         </table>
+                         <div class="ml-auto">
+                            Total Transaksi {{ moneyFormat($totalTransaksi) }} <br>
+                            <form action="{{ route('transaksi-rb-download-date') }}" method="POST">
+                                @csrf
+                                  <input type="hidden" name="start" value="{{ request()->start }}" required class="form-control" placeholder="First name">
+                                        <input type="hidden" name="end" value="{{ request()->end }}" required class="form-control" placeholder="Last name">
+
+                    <input type="hidden" value="{{ request()->user_id }}" name="user_id" id="user_id">
+                                      
+
+                                        <button type="submit" class="btn btn-primary">Download PDF</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,6 +76,7 @@
     $(function () {
         let start = document.getElementsByName("start")[0].value;
         let end = document.getElementsByName("end")[0].value;
+        const user_id = document.getElementById("user_id").value;
        let startTo = start.toString();
        let endTo = end.toString();
          $.ajaxSetup({
@@ -76,7 +91,8 @@
             ajax: { "url" : "transactions-date",
                        "data":{
                 "start":start,
-                "end":end
+                "end":end,
+                'user_id':user_id
             }
             },
          

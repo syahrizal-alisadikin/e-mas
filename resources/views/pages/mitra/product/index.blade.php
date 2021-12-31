@@ -91,6 +91,15 @@
                 "targets": 5, // your case first column
                 "className": "text-center",
             }, 
+            {
+                "targets": 6, // your case first column
+                "className": "text-center",
+            }, 
+             {
+                "targets": 7, // your case first column
+                "className": "text-center",
+            }, 
+          
           
         ]
            

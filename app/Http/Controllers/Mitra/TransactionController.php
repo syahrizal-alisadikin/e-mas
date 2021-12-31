@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DataTables;
+use PDF;
 class TransactionController extends Controller
 {
     /**
@@ -20,23 +21,20 @@ class TransactionController extends Controller
          if(request()->ajax()){
             $product = Transaction::whereHas('user',function($q){
                 $q->where('rb_id',Auth::user()->id);
-            })->with('user','product')->latest()->get();
+            })->groupBy('user_id')->selectRaw('sum(total) as total, sum(quantity) as quantity,user_id,product_id')->with('user','product')->latest()->get();
             
             return Datatables::of($product)
                 ->addColumn('total', function ($data) {
 
                     return moneyFormat($data->total);
                 })
-                ->addColumn('tanggal', function ($data) {
+              ->addColumn('aksi', function ($data) {
 
-                    return dateID($data->tanggal);
-                })
-                ->addColumn('harga', function ($data) {
-
-                    return moneyFormat($data->product->harga);
+                    $button = ' <a href="' . route('transactions.show',$data->user_id) . '" data-toggle="tooltip"   id="' . $data->id . '" data-original-title="Delete" class="btn btn-primary btn-sm" >   <i class="fa  fa-eye"></i> </a>';
+                    return $button;
                 })
                 ->addIndexColumn()
-                ->rawColumns(['total','tanggal','harga'])
+                ->rawColumns(['total','aksi'])
                 ->make(true);
         }
 
@@ -88,7 +86,30 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+         if(request()->ajax()){
+            $transaksi = Transaction::where('user_id',$id)->with('user','product')->latest()->get();
+            return Datatables::of($transaksi)
+                ->addColumn('total', function ($data) {
+
+                    return moneyFormat($data->total);
+                })
+                ->addColumn('harga', function ($data) {
+
+                    return moneyFormat($data->product->harga);
+                })
+                ->addColumn('tanggal', function ($data) {
+
+                    return dateID($data->tanggal);
+                })
+                
+                ->addIndexColumn()
+                ->rawColumns(['total','tanggal','harga'])
+                ->make(true);
+         }
+        $totalTransaksi = Transaction::where('user_id',$id)->with('user','product')->sum('total');
+
+        return view('pages.mitra.transaction.show',compact('id','totalTransaksi'));
+
     }
 
     /**
@@ -125,15 +146,14 @@ class TransactionController extends Controller
         //
     }
 
-      public function TransactionLaporan(Request $request)
+    public function TransactionLaporan(Request $request)
     {
-        
+        $start = $request->input('start');
+        $end = $request->input('end');
+        $data = [$start,$end];
         if(request()->ajax()){
-            $start = $request->input('start');
-            $end = $request->input('end');
-            $data = [$start,$end];
           
-            $transaksi = Transaction::whereBetween('tanggal', $data)->with('user','product')->latest()->get();
+            $transaksi = Transaction::where('user_id',$request->user_id)->whereBetween('tanggal', $data)->with('user','product')->latest()->get();
             // dd($transaksi);
             return Datatables::of($transaksi)
                 ->addColumn('total', function ($data) {
@@ -152,7 +172,28 @@ class TransactionController extends Controller
                 ->rawColumns(['total','tanggal','harga'])
                 ->make(true);
         }
+        $totalTransaksi = Transaction::where('user_id',$request->user_id)->whereBetween('tanggal', $data)->sum('total');
+        // dd($totalTransaksi);
+        return view('pages.mitra.transaction.laporan',compact('totalTransaksi'));
+    }
 
-        return view('pages.mitra.transaction.laporan');
+    public function TransaksiDownloadPdf()
+    {
+        $transaksi = Transaction::where('user_id',request()->user_id)->with('user','product')->latest()->get();
+        $totalTransaksi = Transaction::where('user_id',request()->user_id)->sum('total');
+        $pdf = PDF::loadView('pdf.transaksi-user', compact('transaksi','totalTransaksi'));
+        return $pdf->stream('transaksi.pdf');
+        
+    }
+
+    public function TransaksiDownloadPdfDate(Request $request)
+    {
+        $start = $request->input('start');
+        $end = $request->input('end');
+        $data = [$start,$end] ;
+        $transaksi = Transaction::where('user_id',$request->user_id)->whereBetween('tanggal', $data)->with('user','product')->latest()->get();
+        $totalTransaksi = Transaction::where('user_id',$request->user_id)->whereBetween('tanggal', $data)->sum('total');
+        $pdf = PDF::loadView('pdf.transaksi-user', compact('transaksi','totalTransaksi'));
+            return $pdf->stream('transaksi.pdf');
     }
 }
