@@ -78,7 +78,7 @@ class LaporanPenjualanController extends Controller
     public function TransactionLaporan(Request $request)
     {
         
-        if(request()->ajax()){
+        // if(request()->ajax()){
             $start = $request->input('start');
             $end = $request->input('end');
             $data = [$start,$end];
@@ -102,7 +102,7 @@ class LaporanPenjualanController extends Controller
                 })
                 ->rawColumns(['total','tanggal','harga'])
                 ->make(true);
-        }
+        // }
         $totalTransaksi = Transaction::where('user_id',Auth::user()->id)->sum('total');
 
 

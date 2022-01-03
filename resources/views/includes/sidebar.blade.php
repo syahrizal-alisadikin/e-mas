@@ -43,11 +43,11 @@
                     <i class="fab fa-product-hunt"></i>
                     <span>PRODUK</span>
                 </a>
-                <div id="collapseProduk" class="collapse {{ Request::is('user/bahan-product*') ? ' show' :  '' }} {{ Request::is('user/modal*') ? ' show' :  '' }} {{ Request::is('user/products*') ? ' show' :  '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseProduk" class="collapse {{ Request::is('user/data-aset*') ? ' show' :  '' }} {{ Request::is('user/modal*') ? ' show' :  '' }} {{ Request::is('user/products*') ? ' show' :  '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">PRODUK & MODAL</h6>
                         <a class="collapse-item {{ Request::is('user/products*') ? ' active' : '' }}" href="{{ route('products.index') }}">PRODUK</a>
-                        <a class="collapse-item " href="{{ route('data-aset.index') }}">DATA ASET</a>
+                        <a class="collapse-item  {{ Request::is('user/data-aset*') ? ' active' : '' }}" href="{{ route('data-aset.index') }}">DATA ASET</a>
                         {{-- <a class="collapse-item {{ Request::is('user/modal*') ? ' active' : '' }}" href="{{ route('modal.index') }}">MODAL</a>
                         <a class="collapse-item {{ Request::is('user/bahan-product*') ? ' active' : '' }}" href="{{ route('bahan-product.index') }}">BAHAN</a> --}}
                     
