@@ -60,6 +60,11 @@
                 </div>
 
             </div>
+            <div class="col-lg-7 col-md-7">
+
+                <img src="{{ asset('asset/img/icon-people1.png') }}" class="w-100" alt="">
+
+            </div>
 
         </div>
 
