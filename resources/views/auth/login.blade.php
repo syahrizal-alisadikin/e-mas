@@ -1,82 +1,10 @@
-{{-- @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection --}}
 @extends('layouts.login')
 @section('content')
     <div class="container" >
 
         <!-- Outer Row -->
-        <div class="row justify-content-center">
+        <div class="row ">
 
             <div class="col-lg-5 col-md-5">
 
@@ -135,5 +63,61 @@
 
         </div>
 
+    </div>
+    <div class="bg-primary">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 py-4 text-center">
+                    <h2 class="text-white" ><b>Informasi <br> Pembinaan</b></h2>
+                    
+                </div>
+                <div class="col-md-4 py-4">
+                    <div class="d-flex">
+                        <img src="{{ asset('asset/img/icon Note.png') }}" style="width: 100px; height:100px" alt="">
+                        <div class="ml-2 my-2">
+                            <h3 class="text-white text-bold"><b>260</b></h3>
+                        <h4 class="text-white">Mitra <b>UMKM</b> Terdaftar</h4>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-flex">
+                        <img src="{{ asset('asset/img/icon-0.svg') }}" style="width: 80px; height:80px" alt="">
+                        <div class="my-3">
+                            <h3 class="text-white text-bold"><b>100</b></h3>
+                        <h6 class="text-white">Go Global Terdaftar</h6>
+                        </div>
+
+                    </div>
+                    <div class="d-flex">
+                        <img src="{{ asset('asset/img/icon-1.svg') }}" style="width: 80px; height:80px" alt="">
+                        <div class="my-3">
+                            <h3 class="text-white text-bold"><b>50</b></h3>
+                        <h6 class="text-white">Go Modern Terdaftar</h6>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-flex">
+                        <img src="{{ asset('asset/img/icon-2.svg') }}" style="width: 80px; height:80px" alt="">
+                        <div class="my-3">
+                            <h3 class="text-white text-bold"><b>10</b></h3>
+                        <h6 class="text-white">Go Modern Terdaftar</h6>
+                        </div>
+
+                    </div>
+                    <div class="d-flex">
+                        <img src="{{ asset('asset/img/icon-3.svg') }}" style="width: 80px; height:80px" alt="">
+                        <div class="my-3">
+                            <h3 class="text-white text-bold"><b>100</b></h3>
+                        <h6 class="text-white">Go Global Terdaftar</h6>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
