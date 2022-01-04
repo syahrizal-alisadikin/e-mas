@@ -67,11 +67,11 @@
     <div class="bg-primary">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-2 py-4 text-center col-sm-6">
+                <div class="col-md-2  text-center col-sm-6" style="padding-top: 80px">
                     <h2 class="text-white" ><b>Informasi <br> Pembinaan</b></h2>
                     
                 </div>
-                <div class="col-md-4 py-4 col-sm-6">
+                <div class="col-md-4 col-sm-6" style="padding-top: 70px">
                     <div class="d-flex">
                         <img src="{{ asset('asset/img/icon Note.png') }}" style="width: 100px; height:100px" alt="">
                         <div class="ml-2 my-2">
@@ -81,7 +81,7 @@
 
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-3 col-sm-6" style="padding-top: 30px;padding-bottom:50px">
                     <div class="d-flex">
                         <img src="{{ asset('asset/img/Icon-0.svg') }}" style="width: 80px; height:80px" alt="">
                         <div class="my-3">
@@ -99,7 +99,7 @@
 
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-3 col-sm-6" style="padding-top: 30px;padding-bottom:50px">
                     <div class="d-flex">
                         <img src="{{ asset('asset/img/Icon-2.svg') }}" style="width: 80px; height:80px" alt="">
                         <div class="my-3">
