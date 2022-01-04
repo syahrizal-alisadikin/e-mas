@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="d-flex">
-                        <img src="{{ asset('asset/img/icon-0.svg') }}" style="width: 80px; height:80px" alt="">
+                        <img src="{{ asset('asset/img/Icon-0.svg') }}" style="width: 80px; height:80px" alt="">
                         <div class="my-3">
                             <h3 class="text-white text-bold"><b>100</b></h3>
                         <h6 class="text-white">Go Global Terdaftar</h6>
@@ -91,7 +91,7 @@
 
                     </div>
                     <div class="d-flex">
-                        <img src="{{ asset('asset/img/icon-1.svg') }}" style="width: 80px; height:80px" alt="">
+                        <img src="{{ asset('asset/img/Icon-1.svg') }}" style="width: 80px; height:80px" alt="">
                         <div class="my-3">
                             <h3 class="text-white text-bold"><b>50</b></h3>
                         <h6 class="text-white">Go Modern Terdaftar</h6>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="d-flex">
-                        <img src="{{ asset('asset/img/icon-2.svg') }}" style="width: 80px; height:80px" alt="">
+                        <img src="{{ asset('asset/img/Icon-2.svg') }}" style="width: 80px; height:80px" alt="">
                         <div class="my-3">
                             <h3 class="text-white text-bold"><b>10</b></h3>
                         <h6 class="text-white">Go Modern Terdaftar</h6>
@@ -109,7 +109,7 @@
 
                     </div>
                     <div class="d-flex">
-                        <img src="{{ asset('asset/img/icon-3.svg') }}" style="width: 80px; height:80px" alt="">
+                        <img src="{{ asset('asset/img/Icon-3.svg') }}" style="width: 80px; height:80px" alt="">
                         <div class="my-3">
                             <h3 class="text-white text-bold"><b>100</b></h3>
                         <h6 class="text-white">Go Global Terdaftar</h6>
