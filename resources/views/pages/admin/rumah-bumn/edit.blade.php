@@ -72,7 +72,7 @@
                                 </div>
                                  
                                 <button type="submit" class="btn btn-primary   btn-block">
-                                    Edit Mitra
+                                    Edit Data
                                 </button>
                                 
                                 

@@ -17,7 +17,7 @@
                                             
                                             <div class="form-group">
                                                 <label for="name">Nama</label>
-                                                <input type="text" name="name" id="name" placeholder="Masukan Nama Product..." class="form-control @error('name') is-invalid @enderror" >
+                                                <input type="text" name="name" id="name" value="{{ old('name') }}" placeholder="Masukan Nama Product..." class="form-control @error('name') is-invalid @enderror" >
                                                      @error('name')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>
@@ -26,7 +26,7 @@
                                             </div>
                                              <div class="form-group">
                                                 <label for="name">Modal</label>
-                                              <input type="number" name="modal" id="modal" placeholder="Masukan Harga Modal..." class="form-control @error('modal') is-invalid @enderror" >
+                                              <input type="number" name="modal" id="modal" value="{{ old('modal') }}" placeholder="Masukan Harga Modal..." class="form-control @error('modal') is-invalid @enderror" >
                                                      @error('modal')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>
@@ -36,7 +36,7 @@
                                             
                                             <div class="form-group">
                                                 <label for="name">Harga Jual</label>
-                                                <input type="number" name="harga" id="name" placeholder="Masukan Harga..." class="form-control @error('harga') is-invalid @enderror" >
+                                                <input type="number" name="harga" id="name" value="{{ old('harga') }}" placeholder="Masukan Harga..." class="form-control @error('harga') is-invalid @enderror" >
                                                      @error('harga')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>
@@ -45,7 +45,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="name">Stok</label>
-                                                <input type="number" name="stok" id="stok" placeholder="Masukan Stok..." class="form-control @error('stok') is-invalid @enderror" >
+                                                <input type="number" name="stok" id="stok" value="{{ old('stok') }}" placeholder="Masukan Stok..." class="form-control @error('stok') is-invalid @enderror" >
                                                      @error('stok')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>

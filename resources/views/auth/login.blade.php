@@ -80,7 +80,7 @@
                     <div class="d-flex">
                         <img src="{{ asset('asset/img/icon Note.png') }}" style="width: 100px; height:100px" alt="">
                         <div class="ml-2 my-2">
-                            <h3 class="text-white text-bold"><b>260</b></h3>
+                            <h3 class="text-white text-bold"><b>{{ $umkm }}</b></h3>
                         <h4 class="text-white">Mitra <b>UMKM</b> Terdaftar</h4>
                         </div>
 
@@ -90,7 +90,7 @@
                     <div class="d-flex">
                         <img src="{{ asset('asset/img/Icon-0.svg') }}" style="width: 80px; height:80px" alt="">
                         <div class="my-3">
-                            <h3 class="text-white text-bold"><b>100</b></h3>
+                            <h3 class="text-white text-bold"><b>{{ $global }}</b></h3>
                         <h6 class="text-white">Go Global Terdaftar</h6>
                         </div>
 
@@ -98,8 +98,8 @@
                     <div class="d-flex">
                         <img src="{{ asset('asset/img/Icon-1.svg') }}" style="width: 80px; height:80px" alt="">
                         <div class="my-3">
-                            <h3 class="text-white text-bold"><b>50</b></h3>
-                        <h6 class="text-white">Go Modern Terdaftar</h6>
+                            <h3 class="text-white text-bold"><b>{{ $online }}</b></h3>
+                        <h6 class="text-white">Go Online Terdaftar</h6>
                         </div>
 
                     </div>
@@ -108,7 +108,7 @@
                     <div class="d-flex">
                         <img src="{{ asset('asset/img/Icon-2.svg') }}" style="width: 80px; height:80px" alt="">
                         <div class="my-3">
-                            <h3 class="text-white text-bold"><b>10</b></h3>
+                            <h3 class="text-white text-bold"><b>{{ $modern }}</b></h3>
                         <h6 class="text-white">Go Modern Terdaftar</h6>
                         </div>
 
@@ -116,8 +116,8 @@
                     <div class="d-flex">
                         <img src="{{ asset('asset/img/Icon-3.svg') }}" style="width: 80px; height:80px" alt="">
                         <div class="my-3">
-                            <h3 class="text-white text-bold"><b>100</b></h3>
-                        <h6 class="text-white">Go Global Terdaftar</h6>
+                            <h3 class="text-white text-bold"><b>{{ $digital }}</b></h3>
+                        <h6 class="text-white">Go Digital Terdaftar</h6>
                         </div>
 
                     </div>

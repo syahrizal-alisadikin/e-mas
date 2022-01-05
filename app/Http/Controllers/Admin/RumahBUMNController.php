@@ -12,6 +12,8 @@ use DataTables;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use ArielMejiaDev\LarapexCharts\LarapexChart;
+
 class RumahBUMNController extends Controller
 {
     /**
@@ -95,15 +97,30 @@ class RumahBUMNController extends Controller
      */
     public function show($id)
     {
+       
         if(request()->ajax()){
             $user =  User::where('rb_id',$id)->latest()->get();
             
             return Datatables::of($user)
               
                  ->addColumn('aksi',function($data){
-                    $transaksi = '<a href="transaksi/'.$data->id.'" id="tooltip"  data-toggle="tooltip" data-placement="top" title="Transaksi Mitra" class="btn btn-success btn-sm"> <i class="fas  fa-dollar-sign"></i> </a>';
-                    $produk = $transaksi .'<a href="pemasaran/'.$data->id.'" id="tooltip"  data-toggle="tooltip" data-placement="top" title="Pemasaran Produk" class="btn btn-primary ml-1 btn-sm"><i class="fab fa-product-hunt"></i> </a>';
-                    $button = $produk .'<a href="produk/'.$data->id.'" id="tooltip"  data-toggle="tooltip" data-placement="top" title="Stok Produk" class="btn btn-secondary ml-1 btn-sm"><i class="fas fa-boxes"></i> </a>';
+                    $transaksi = '
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                            Transkasi
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        
+                        <a href="transaksi/'.$data->id.'" id="tooltip"  data-toggle="tooltip" data-placement="top" title="Transaksi Mitra" class="dropdown-item"> Per Produk </a>
+                        <a href="' . route('rumah-bumn.transaksi.all', $data->id) . '" id="tooltip"  data-toggle="tooltip" data-placement="top" title="Transaksi Mitra" class="dropdown-item"> Semua Produk </a>
+                           
+                        </div>
+                    </div>
+                    ';
+                    $produk ='<a href="pemasaran/'.$data->id.'" id="tooltip"  data-toggle="tooltip" data-placement="top" title="Pemasaran Produk" class="btn btn-primary ml-1 btn-sm">Pemasaran </a>';
+                    $button =  '<div class="d-flex text-center">
+                    '.$transaksi.''.$produk.'.<a href="produk/'.$data->id.'" id="tooltip"  data-toggle="tooltip" data-placement="top" title="Stok Produk" class="btn btn-secondary ml-1 btn-sm">Produk </a>
+                                </div>';
                    
                     return $button;
                 })
@@ -244,6 +261,9 @@ class RumahBUMNController extends Controller
             $product = Transaction::where('user_id',$id)
                                     ->with('user','product')
                                     ->groupBy('product_id')
+                                    ->addSelect(['balance' => Product::selectRaw('sum(modal) as totalModal')
+                                    ->whereColumn('id', 'transactions.product_id')
+                                    ])
                                     ->selectRaw('sum(quantity) as totalQuantity,sum(total) as total,user_id,product_id')
                                     ->orderBy('total','desc')
                                     ->get();
@@ -253,6 +273,10 @@ class RumahBUMNController extends Controller
 
                     return moneyFormat($data->total);
                 })
+                ->addColumn('laba', function ($data) {
+                    $modal = $data->balance * $data->totalQuantity;
+                    return moneyFormat($data->total- $modal);
+                })
                   ->addColumn('aksi',function($data){
                     $transaksi = '<a href="detail/'.$data->product_id.'/'.$data->user_id.'" id="tooltip"  data-toggle="tooltip" data-placement="top" title="Detaill Transaksi" class="btn btn-primary btn-sm"> <i class="fas  fa-eye"></i> </a>';
                    
@@ -260,24 +284,119 @@ class RumahBUMNController extends Controller
                 })
                 
                 ->addIndexColumn()
-                ->rawColumns(['total','tanggal','aksi'])
+                ->rawColumns(['total','aksi','laba'])
                 ->make(true);
         }
+        $totalTransaksi = Transaction::where('user_id',$id)->with('user','product')->sum('total');
 
          $data = User::find($id);
-        return view('pages.admin.rumah-bumn.show-transaksi',compact('data'));
+        return view('pages.admin.rumah-bumn.show-transaksi',compact('data','totalTransaksi'));
+    }
+    public function ShowTransaksiAll($id)
+    {
+         if(request()->ajax()){
+            $product = Transaction::where('user_id',$id)
+                                    ->with('user','product')
+                                    ->addSelect(['balance' => Product::selectRaw('sum(modal) as totalModal')
+                                    ->whereColumn('id', 'transactions.product_id')
+                                    ])
+                                    // ->selectRaw('sum(quantity) as totalQuantity,sum(total) as total,user_id,product_id')
+                                    ->orderBy('tanggal','desc')
+                                    ->get();
+            
+            return Datatables::of($product)
+                ->addColumn('total', function ($data) {
+
+                    return moneyFormat($data->total);
+                })
+                ->addColumn('laba', function ($data) {
+                    $modal = $data->balance * $data->quantity;
+                    return moneyFormat($data->total- $modal);
+                })
+                  ->addColumn('aksi',function($data){
+                    $transaksi = '<a href="detail/'.$data->product_id.'/'.$data->user_id.'" id="tooltip"  data-toggle="tooltip" data-placement="top" title="Detaill Transaksi" class="btn btn-primary btn-sm"> <i class="fas  fa-eye"></i> </a>';
+                   
+                    return $transaksi;
+                })
+                ->addColumn('tanggal', function ($data) {
+    
+                    return dateID($data->tanggal);
+                })
+                
+                ->addIndexColumn()
+                ->rawColumns(['total','tanggal','aksi','laba'])
+                ->make(true);
+        }
+        $totalTransaksi = Transaction::where('user_id',$id)->with('user','product')->sum('total');
+
+         $data = User::find($id);
+        
+        return view('pages.admin.rumah-bumn.show-transaksi-all',compact('data','totalTransaksi'));
     }
 
      public function DetailTransaksi(Request $request,$id,$user)
     {
         $start = $request->input('start');
-            $end = $request->input('end');
-            $data = [$start,$end];
-        
+        $end = $request->input('end');
+        $year   = date('Y');
+        $month  = date('m');
+        $day    = date('d');
+        $data = [$start,$end];
+
+        if($start && $end){
+            $explodeStart = Explode("-",$start);
+            $explodeEnd = Explode("-",$end);
+            for($explodeStart[2]; $explodeStart[2] <= $explodeEnd[2]; $explodeStart[2]++){
+                $transaction[] = Transaction::where('user_id',$user)->where('product_id',$id)->whereDay('tanggal',"=",$explodeStart[2])->whereMonth('tanggal', '=',$explodeStart[1])->whereYear('tanggal', $explodeStart[0])->sum('total');
+                $tanggal[] = $explodeStart[2];
+            }
+            
+            $transactions = (new LarapexChart)->areaChart()
+            ->setTitle('Laporan Transaction')
+            ->addData('Transactions', $transaction)
+            ->setXAxis($tanggal);
+            if(request()->ajax()){
+                $product = Transaction::when(request()->start, function($q){
+                    $q->whereBetween('tanggal',[ request()->input('start'), request()->input('end')]);
+                })->where('product_id',$id)
+                ->addSelect(['balance' => Product::selectRaw('sum(modal) as totalModal')
+                ->whereColumn('id', 'transactions.product_id')
+                ])
+                                        ->where('user_id',$user)
+                                        ->with('user','product')
+                                        ->latest()
+                                        ->get();
+                
+                return Datatables::of($product)
+                    ->addColumn('total', function ($data) {
+    
+                        return moneyFormat($data->total);
+                    })
+                    ->addColumn('laba', function ($data) {
+                        $modal = $data->balance * $data->quantity;
+                        return moneyFormat($data->total- $modal);
+                    })
+                   ->addColumn('tanggal', function ($data) {
+    
+                        return dateID($data->tanggal);
+                    })
+                    ->addIndexColumn()
+                    ->rawColumns(['total','tanggal','laba'])
+                    ->make(true);
+            }
+            $totalTransaksi = Transaction::where('user_id',$id)->with('user','product')->sum('total');
+    
+             $data = Product::find($id);
+            return view('pages.admin.rumah-bumn.show-detail-transaksi',compact('data','totalTransaksi','transactions'));
+        }
+           
          if(request()->ajax()){
             $product = Transaction::when(request()->start, function($q){
                 $q->whereBetween('tanggal',[ request()->input('start'), request()->input('end')]);
             })->where('product_id',$id)
+            ->addSelect(['balance' => Product::selectRaw('sum(modal) as totalModal')
+            ->whereColumn('id', 'transactions.product_id')
+            ])
                                     ->where('user_id',$user)
                                     ->with('user','product')
                                     ->latest()
@@ -288,17 +407,111 @@ class RumahBUMNController extends Controller
 
                     return moneyFormat($data->total);
                 })
+                ->addColumn('laba', function ($data) {
+                    $modal = $data->balance * $data->quantity;
+                    return moneyFormat($data->total- $modal);
+                })
                ->addColumn('tanggal', function ($data) {
 
                     return dateID($data->tanggal);
                 })
                 ->addIndexColumn()
-                ->rawColumns(['total','tanggal'])
+                ->rawColumns(['total','tanggal','laba'])
                 ->make(true);
         }
+        $totalTransaksi = Transaction::where('user_id',$id)->with('user','product')->sum('total');
 
          $data = Product::find($id);
-        return view('pages.admin.rumah-bumn.show-detail-transaksi',compact('data'));
+        return view('pages.admin.rumah-bumn.show-detail-transaksi',compact('data','totalTransaksi'));
+    }
+    public function DetailTransaksiAll(Request $request,$id)
+    {
+
+        $start = $request->input('start');
+        $end = $request->input('end');
+        $year   = date('Y');
+        $month  = date('m');
+        $day    = date('d');
+        $data = [$start,$end];
+
+        if($start && $end){
+            $explodeStart = Explode("-",$start);
+            $explodeEnd = Explode("-",$end);
+            for($explodeStart[2]; $explodeStart[2] <= $explodeEnd[2]; $explodeStart[2]++){
+                $transaction[] = Transaction::where('user_id',$id)->whereDay('tanggal',"=",$explodeStart[2])->whereMonth('tanggal', '=',$explodeStart[1])->whereYear('tanggal', $explodeStart[0])->sum('total');
+                $tanggal[] = $explodeStart[2];
+            }
+            
+            $transactions = (new LarapexChart)->areaChart()
+            ->setTitle('Laporan Transaction')
+            ->addData('Transactions', $transaction)
+            ->setXAxis($tanggal);
+            if(request()->ajax()){
+                $product = Transaction::when(request()->start, function($q){
+                    $q->whereBetween('tanggal',[ request()->input('start'), request()->input('end')]);
+                })->where('user_id',$id)
+                ->addSelect(['balance' => Product::selectRaw('sum(modal) as totalModal')
+                ->whereColumn('id', 'transactions.product_id')
+                ])->with('user','product')
+                    ->orderBy('tanggal','desc')
+                    ->get();
+                
+                return Datatables::of($product)
+                    ->addColumn('total', function ($data) {
+    
+                        return moneyFormat($data->total);
+                    })
+                    ->addColumn('laba', function ($data) {
+                        $modal = $data->balance * $data->quantity;
+                        return moneyFormat($data->total- $modal);
+                    })
+                   ->addColumn('tanggal', function ($data) {
+    
+                        return dateID($data->tanggal);
+                    })
+                    ->addIndexColumn()
+                    ->rawColumns(['total','tanggal','laba'])
+                    ->make(true);
+            }
+            $totalTransaksi = Transaction::whereBetween('tanggal',[ request()->input('start'), request()->input('end')])->where('user_id',$id)->with('user','product')->sum('total');
+    
+             $data = User::find($id);
+            return view('pages.admin.rumah-bumn.show-detail-transaksi-all',compact('data','totalTransaksi','transactions'));
+        }
+           
+         if(request()->ajax()){
+            $product = Transaction::when(request()->start, function($q){
+                $q->whereBetween('tanggal',[ request()->input('start'), request()->input('end')]);
+            })->where('product_id',$id)
+            ->addSelect(['balance' => Product::selectRaw('sum(modal) as totalModal')
+            ->whereColumn('id', 'transactions.product_id')
+            ])
+                                    ->where('user_id',$id)
+                                    ->with('user','product')
+                                    ->latest()
+                                    ->get();
+            
+            return Datatables::of($product)
+                ->addColumn('total', function ($data) {
+
+                    return moneyFormat($data->total);
+                })
+                ->addColumn('laba', function ($data) {
+                    $modal = $data->balance * $data->quantity;
+                    return moneyFormat($data->total- $modal);
+                })
+               ->addColumn('tanggal', function ($data) {
+
+                    return dateID($data->tanggal);
+                })
+                ->addIndexColumn()
+                ->rawColumns(['total','tanggal','laba'])
+                ->make(true);
+        }
+        $totalTransaksi = Transaction::where('user_id',$id)->with('user','product')->sum('total');
+
+         $data = Product::find($id);
+        return view('pages.admin.rumah-bumn.show-detail-transaksi',compact('data','totalTransaksi'));
     }
 
     public function MitraAdmin()
@@ -306,7 +519,10 @@ class RumahBUMNController extends Controller
         if(request()->ajax()){
         $transaction = Transaction::with('user','product')
                                 ->groupBy('user_id')
-                                ->selectRaw('sum(quantity) as totalQuantity,sum(total) as total,user_id,product_id')
+                                ->addSelect(['balance' => Product::selectRaw('sum(modal) as totalModal')
+                                ->whereColumn('id', 'transactions.product_id')
+                                ])
+                                ->selectRaw('sum(total) as total,sum(quantity) as totalQuantity,user_id,product_id')
                                 ->orderBy('total','desc')
                                 ->get();
                 return Datatables::of($transaction)
@@ -314,12 +530,16 @@ class RumahBUMNController extends Controller
 
                     return moneyFormat($data->total);
                 })
+                ->addColumn('laba', function ($data) {
+                    $laba = $data->balance * $data->totalQuantity;
+                    return moneyFormat($data->total-$laba);
+                })
                ->addColumn('tanggal', function ($data) {
 
-                    return dateID($data->tanggal);
+                    return dateID($data->user->created_at);
                 })
                 ->addIndexColumn()
-                ->rawColumns(['total','tanggal'])
+                ->rawColumns(['total','tanggal','laba'])
                 ->make(true);
         }
 

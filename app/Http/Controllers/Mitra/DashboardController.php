@@ -30,13 +30,13 @@ class DashboardController extends Controller
         //statistic revenue
         $revenueDay = Transaction::whereHas('user',function($q){
                 $q->where('rb_id',Auth::user()->id);
-            })->whereDay('created_at', '=', $day)->whereMonth('created_at', '=', $month)->whereYear('created_at', $year)->sum('total');
+            })->whereDay('tanggal', '=', $day)->whereMonth('tanggal', '=', $month)->whereYear('tanggal', $year)->sum('total');
         $revenueMonth = Transaction::whereHas('user',function($q){
                 $q->where('rb_id',Auth::user()->id);
-            })->whereMonth('created_at', '=', $month)->whereYear('created_at', $year)->sum('total');
+            })->whereMonth('tanggal', '=', $month)->whereYear('tanggal', $year)->sum('total');
         $revenueYear  = Transaction::whereHas('user',function($q){
                 $q->where('rb_id',Auth::user()->id);
-            })->whereYear('created_at', $year)->sum('total');
+            })->whereYear('tanggal', $year)->sum('total');
         $revenueAll   = Transaction::whereHas('user',function($q){
                 $q->where('rb_id',Auth::user()->id);
             })->sum('total');

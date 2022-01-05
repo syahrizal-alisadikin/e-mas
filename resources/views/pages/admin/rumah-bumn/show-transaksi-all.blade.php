@@ -2,9 +2,8 @@
 
 @section('content')
        <main>
-          
         <div class="container-fluid">
-             <form class=" mb-4" method="GET" action="{{ url('admin/rumah-bumn/transaksi/detail/'.$data->id.'/'.$data->user_id) }}">
+            <form class=" mb-4" method="GET" action="{{ url('admin/rumah-bumn/transaksi/detail-all/'.$data->id) }}">
                                     <div class="row">
                                         <div class="col">
                                             <label for="">Tanggal Awal</label>
@@ -23,11 +22,58 @@
                                         </div>
                                     </div>
                                     </form>
+                                    <form class=" mb-4" method="GET" action="{{ url('admin/rumah-bumn/transaksi/detail-all/'.$data->id) }}">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="">Tahun</label>
+                                            <input type="text" name="tahun" readonly value="{{ date('Y') }}" required class="form-control" placeholder="First name">
+                                            </div>
+                                            <div class="col">
+                                                <label for="">Bulan Awal</label>
+                                                <select name="start" class="form-control" id="">
+                                                    <option value="1">Januari</option>
+                                                    <option value="2">Februari</option>
+                                                    <option value="3">Maret</option>
+                                                    <option value="4">April</option>
+                                                    <option value="5">Mei</option>
+                                                    <option value="6">Juni</option>
+                                                    <option value="7">Juli</option>
+                                                    <option value="8">Agustus</option>
+                                                    <option value="9">September</option>
+                                                    <option value="10">Oktober</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">Desember</option>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <label for="">Bulan Akhir</label>
+                                                <select name="start" class="form-control" id="">
+                                                    <option value="1">Januari</option>
+                                                    <option value="2">Februari</option>
+                                                    <option value="3">Maret</option>
+                                                    <option value="4">April</option>
+                                                    <option value="5">Mei</option>
+                                                    <option value="6">Juni</option>
+                                                    <option value="7">Juli</option>
+                                                    <option value="8">Agustus</option>
+                                                    <option value="9">September</option>
+                                                    <option value="10">Oktober</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">Desember</option>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <br>
+                                                
+                                    <button type="submit" disabled class="btn btn-primary mt-2">Cari</button>
+    
+                                            </div>
+                                        </div>
+                                        </form>
             <div class="card mb-4">
                 <div class="card-header d-flex">
-                     <a href="{{ route('rumah-bumn.transaksi',$data->user->id) }}" class="btn btn-primary" style="margin-top: -5px"><i class="fas fa-arrow-circle-left"></i></a> Data Transaksi Mitra {{ $data->name }}
+                     <a href="{{ route('rumah-bumn.show',$data->rb_id) }}" class="btn btn-primary" style="margin-top: -5px"><i class="fas fa-arrow-circle-left"></i></a> Data Transaksi Mitra {{ $data->name }}
                     <input type="hidden"  id="rb_id" value="{{ $data->id }}">
-                    <input type="hidden"  id="user_id" value="{{ $data->user_id }}">
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -49,38 +95,20 @@
                             Total Transaksi {{ moneyFormat($totalTransaksi) }} <br>
                             <form action="{{ route('transaksi-admin-download-pdf') }}" method="POST">
                                 @csrf
-                    <input type="hidden" value="{{ $data->user_id }}" name="user_id" id="user_id">
+                    <input type="hidden" value="{{ $data->id }}" name="user_id" id="user_id">
                                       
 
                                         <button type="submit" class="btn btn-primary">Download PDF</button>
                             </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        @if (request()->start && request()->end)
-        <div class="row">
-
-         <!-- Area Chart -->
-          <div class="col-md-12 mb-4">
-         {!! $transactions->container() !!}
-         </div>
-
-      
-     </div>
-
-        @endif
     </main>
 
 @endsection
-
-
-
 @push('addon-script')
-<script src="{{ LarapexChart::cdn() }}"></script>
-{{  request()->start != null ? $transactions->script() : null
-    
-}}
     <script>
        
     $(function () {
@@ -91,22 +119,12 @@
         });
 
         const rb_id = document.getElementById("rb_id").value;
-        const user = document.getElementById("user_id").value;
-        let start = document.getElementsByName("start")[0].value;
-        let end = document.getElementsByName("end")[0].value;
-       let startTo = start.toString();
-       let endTo = end.toString();
-
         $('#status-table').DataTable({
             processing: true,
-            // serverSide: true,
+            serverSide: true,
              retrieve: true,
             ajax: {
-                 url: "{{ url("admin/rumah-bumn/transaksi/detail") }}/"+rb_id+"/"+user ,
-                 "data":{
-                "start":start,
-                "end":end
-            }
+                 url: "{{ url("admin/rumah-bumn/transaksi") }}/"+rb_id +"/all",
 
             },
             columns: [
@@ -134,7 +152,7 @@
                 "targets": 3, // your case first column
                 "className": "text-center",
             }, 
-               {
+             {
                 "targets": 4, // your case first column
                 "className": "text-center",
             }, 

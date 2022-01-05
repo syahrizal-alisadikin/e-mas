@@ -16,6 +16,7 @@ use App\Http\Controllers\User\LaporanPenjualanController;
 use App\Http\Controllers\User\ModalController;
 use App\Http\Controllers\User\PemsaranController;
 use App\Http\Controllers\User\ProductController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,7 +30,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function () {
-    return view('auth.login');
+    $global = User::whereHas('status',function($q){
+        $q->where('name','Go Global');
+    })->count();
+    $online = User::whereHas('status',function($q){
+        $q->where('name','Go Online');
+    })->count();
+    $modern = User::whereHas('status',function($q){
+        $q->where('name','Go Modern');
+    })->count();
+    $digital = User::whereHas('status',function($q){
+        $q->where('name','Go Digital');
+    })->count();
+    $umkm = User::where('roles','MB')->count();
+    return view('auth.login',['global' => $global,
+                                'online' => $online,
+                                'modern' => $modern,
+                                'digital' => $digital,
+                                'umkm' => $umkm]);
 })->middleware('checkLogin');
 
 Route::prefix('user')
@@ -82,8 +100,11 @@ Route::prefix('admin')
             Route::get('rumah-bumn/produk/{id}',[RumahBUMNController::class,'ShowProduk'])->name('rumah-bumn.produk');
             Route::get('rumah-bumn/pemasaran/{id}',[RumahBUMNController::class,'ShowPemasaran'])->name('rumah-bumn.pemasaran');
             Route::get('rumah-bumn/transaksi/{id}',[RumahBUMNController::class,'ShowTransaksi'])->name('rumah-bumn.transaksi');
+            Route::get('rumah-bumn/transaksi/{id}/all',[RumahBUMNController::class,'ShowTransaksiAll'])->name('rumah-bumn.transaksi.all');
             Route::get('rumah-bumn/transaksi/detail/{id}/{user}',[RumahBUMNController::class,'DetailTransaksi'])->name('rumah-bumn.detailtransaksi');
+            Route::get('rumah-bumn/transaksi/detail-all/{id}',[RumahBUMNController::class,'DetailTransaksiAll'])->name('rumah-bumn.detailtransaksi.all');
             Route::get('mitra-admin',[RumahBUMNController::class,'MitraAdmin'])->name('mitra-admin');
+            Route::POST('transactions-admin',[TransactionController::class,'TransaksiDownloadPdf'])->name('transaksi-admin-download-pdf');
            
         });
 Auth::routes();

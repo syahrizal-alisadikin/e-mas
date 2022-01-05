@@ -50,7 +50,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="name">Tanggal</label>
-                                                <input type="date" name="tanggal" required  class="form-control @error('tanggal') is-invalid @enderror" >
+                                                <input type="date" value="{{ date('Y-m-d') }}" name="tanggal" required  class="form-control @error('tanggal') is-invalid @enderror" >
                                                      @error('tanggal')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>

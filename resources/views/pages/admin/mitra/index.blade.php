@@ -14,10 +14,11 @@
                         <table class="table table-bordered" id="status-table" width="100%" cellspacing="0">
                             <thead>
                                 <tr class="text-center">
-                                       <th>No</th>
+                                    <th>No</th>
                                     <th>Name</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
+                                    <th>Tanggal Register</th>
+                                    <th>Penjualan terbanyak</th>
+                                    {{-- <th>Laba terbesar</th> --}}
                                     
                                     
                                 </tr>
@@ -52,8 +53,9 @@
             columns: [
              { data: 'DT_RowIndex', name:'DT_RowIndex'},
                 { data: 'product.name', name: 'product.name' },
-                { data: 'totalQuantity', name: 'quantity' },
-                { data: 'total', name: 'quantity' },
+                { data: 'tanggal', name: 'tanggal' },
+                { data: 'total', name: 'total' },
+                // { data: 'laba', name: 'laba' },
             ],    
             columnDefs: [
             {
