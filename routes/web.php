@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\RumahBUMNController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Mitra\DashboardController as MitraDashboardController;
 use App\Http\Controllers\Mitra\PemasaranController;
 use App\Http\Controllers\Mitra\ProductController as MitraProductController;
@@ -17,6 +18,8 @@ use App\Http\Controllers\User\ModalController;
 use App\Http\Controllers\User\PemsaranController;
 use App\Http\Controllers\User\ProductController;
 use App\Models\User;
+
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/cart',[HomeController::class,'cart']);
 Route::get('/', function () {
     $global = User::whereHas('status',function($q){
         $q->where('name','Go Global');

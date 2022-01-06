@@ -148,11 +148,6 @@
                 <!-- /.container-fluid -->
 
             </div>
+<script src="{{ LarapexChart::cdn() }}"></script>   
+{{ $transactions->script() }}
 @endsection
-@push('addon-script')
-
-    <script src="{{ LarapexChart::cdn() }}"></script>
-   
-    {{ $transactions->script() }}
-    
-@endpush

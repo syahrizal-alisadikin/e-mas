@@ -71,16 +71,16 @@
 
         @endif
     </main>
-
+    <script src="{{ LarapexChart::cdn() }}"></script>
+    {{  request()->start != null ? $transactions->script() : null
+        
+    }}
 @endsection
 
 
 
 @push('addon-script')
-<script src="{{ LarapexChart::cdn() }}"></script>
-{{  request()->start != null ? $transactions->script() : null
-    
-}}
+
     <script>
        
     $(function () {
@@ -90,12 +90,12 @@
           }
         });
 
-        const rb_id = document.getElementById("rb_id").value;
-        const user = document.getElementById("user_id").value;
-        let start = document.getElementsByName("start")[0].value;
-        let end = document.getElementsByName("end")[0].value;
-       let startTo = start.toString();
-       let endTo = end.toString();
+    const rb_id = document.getElementById("rb_id").value;
+    const user = document.getElementById("user_id").value;
+    let start = document.getElementsByName("start")[0].value;
+    let end = document.getElementsByName("end")[0].value;
+    let startTo = start.toString();
+    let endTo = end.toString();
 
         $('#status-table').DataTable({
             processing: true,

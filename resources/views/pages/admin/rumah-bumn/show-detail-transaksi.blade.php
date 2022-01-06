@@ -71,16 +71,16 @@
 
         @endif
     </main>
-
+    <script src="{{ LarapexChart::cdn() }}"></script>
+    {{  request()->start != null ? $transactions->script() : null
+        
+    }}
 @endsection
 
 
 
 @push('addon-script')
-<script src="{{ LarapexChart::cdn() }}"></script>
-{{  request()->start != null ? $transactions->script() : null
-    
-}}
+
     <script>
        
     $(function () {

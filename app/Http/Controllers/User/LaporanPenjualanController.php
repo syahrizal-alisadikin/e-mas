@@ -78,10 +78,10 @@ class LaporanPenjualanController extends Controller
     public function TransactionLaporan(Request $request)
     {
         
-        // if(request()->ajax()){
-            $start = $request->input('start');
-            $end = $request->input('end');
-            $data = [$start,$end];
+        $start = $request->input('start');
+        $end = $request->input('end');
+        $data = [$start,$end];
+        if(request()->ajax()){
           
             $transaksi = Transaction::where('user_id',Auth::user()->id)->whereBetween('tanggal', $data)->with('user','product')->latest()->get();
             // dd($transaksi);
@@ -102,10 +102,10 @@ class LaporanPenjualanController extends Controller
                 })
                 ->rawColumns(['total','tanggal','harga'])
                 ->make(true);
-        // }
-        $totalTransaksi = Transaction::where('user_id',Auth::user()->id)->sum('total');
+        }
+        $totalTransaksi = Transaction::whereBetween('tanggal', $data)->where('user_id',Auth::user()->id)->sum('total');
 
-
+        // dd($totalTransaksi);
         return view('pages.user.transaction.laporan',compact('totalTransaksi'));
     }
 
