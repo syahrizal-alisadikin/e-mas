@@ -99,6 +99,10 @@
                 "targets": 7, // your case first column
                 "className": "text-center",
             }, 
+            {
+                "targets": 8, // your case first column
+                "className": "text-center",
+            }, 
           
           
         ]

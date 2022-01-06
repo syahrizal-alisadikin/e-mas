@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $revenueDay     = Transaction::where('user_id', Auth::user()->id)->whereDay('tanggal', '=', $day)->whereMonth('created_at', '=', $month)->whereYear('created_at','=', $year)->sum('total');
         $revenueMonth   = Transaction::where('user_id', Auth::user()->id)->whereMonth('tanggal', '=', $month)->whereYear('created_at','=', $year)->sum('total');
         
-        $revenueYear    = Transaction::where('user_id', Auth::user()->id)->whereYear('created_at','=', $year)->sum('total');
+        $revenueYear    = Transaction::where('user_id', Auth::user()->id)->whereYear('tanggal','=', $year)->sum('total');
         $revenueAll     = Transaction::where('user_id', Auth::user()->id)->sum('total');
 
         $january        = Transaction::where('user_id', Auth::user()->id)->whereMonth('tanggal','=',$month_1)->whereYear('tanggal', $year)->sum('total');

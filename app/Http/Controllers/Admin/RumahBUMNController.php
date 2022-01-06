@@ -514,6 +514,45 @@ class RumahBUMNController extends Controller
         return view('pages.admin.rumah-bumn.show-detail-transaksi',compact('data','totalTransaksi'));
     }
 
+    public function DetailTransaksiMonth(Request $request,$id)
+    {
+
+        $bulan = $request->bulan;
+
+        if(request()->ajax()){
+          
+            $transaksi = Transaction::where('user_id',$id)->whereMonth('tanggal', $bulan)->whereYear('tanggal',$request->tahun)
+            ->addSelect(['balance' => Product::selectRaw('sum(modal) as totalModal')
+            ->whereColumn('id', 'transactions.product_id')
+            ])->with('user','product')->latest()->get();
+            // dd($transaksi);
+            return Datatables::of($transaksi)
+                ->addColumn('total', function ($data) {
+
+                    return moneyFormat($data->total);
+                })
+                ->addColumn('tanggal', function ($data) {
+
+                    return dateID($data->tanggal);
+                })
+                 ->addColumn('harga', function ($data) {
+
+                    return moneyFormat($data->product->harga);
+                })  
+                ->addColumn('laba', function ($data) {
+                    $modal = $data->balance * $data->quantity;
+                    return moneyFormat($data->total- $modal);
+                })              
+                ->addIndexColumn()
+                ->rawColumns(['total','tanggal','harga','laba'])
+                ->make(true);
+        }
+        $totalTransaksi = Transaction::where('user_id',$id)->whereMonth('tanggal', $bulan)->whereYear('tanggal',$request->tahun)->sum('total');
+
+         $data = User::find($id);
+        return view('pages.admin.rumah-bumn.show-detail-transaksi-month',compact('data','totalTransaksi'));
+    }
+
     public function MitraAdmin()
     {
         if(request()->ajax()){

@@ -162,7 +162,7 @@ class TransactionController extends Controller
                 })
                 ->addColumn('tanggal', function ($data) {
 
-                    return dateID($data->created_at);
+                    return dateID($data->tanggal);
                 })
                  ->addColumn('harga', function ($data) {
 
@@ -175,6 +175,36 @@ class TransactionController extends Controller
         $totalTransaksi = Transaction::where('user_id',$request->user_id)->whereBetween('tanggal', $data)->sum('total');
         // dd($totalTransaksi);
         return view('pages.mitra.transaction.laporan',compact('totalTransaksi'));
+    }
+
+    public function TransactionLaporanMonth(Request $request)
+    {
+        $bulan = $request->bulan;
+
+        if(request()->ajax()){
+          
+            $transaksi = Transaction::where('user_id',$request->user_id)->whereMonth('tanggal', $bulan)->whereYear('tanggal',$request->tahun)->with('user','product')->latest()->get();
+            // dd($transaksi);
+            return Datatables::of($transaksi)
+                ->addColumn('total', function ($data) {
+
+                    return moneyFormat($data->total);
+                })
+                ->addColumn('tanggal', function ($data) {
+
+                    return dateID($data->tanggal);
+                })
+                 ->addColumn('harga', function ($data) {
+
+                    return moneyFormat($data->product->harga);
+                })                
+                ->addIndexColumn()
+                ->rawColumns(['total','tanggal','harga'])
+                ->make(true);
+        }
+        $totalTransaksi = Transaction::where('user_id',$request->user_id)->whereMonth('tanggal', $bulan)->whereYear('tanggal',$request->tahun)->sum('total');
+        // dd($totalTransaksi);
+        return view('pages.mitra.transaction.laporan-month',compact('totalTransaksi'));
     }
 
     public function TransaksiDownloadPdf()

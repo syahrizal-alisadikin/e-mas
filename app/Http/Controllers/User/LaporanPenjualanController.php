@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use DataTables;
 use PDF;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 class LaporanPenjualanController extends Controller
 {
@@ -98,7 +99,7 @@ class LaporanPenjualanController extends Controller
                 })
                 ->addColumn('tanggal', function ($data) {
 
-                    return dateID($data->created_at);
+                    return dateID($data->tanggal);
                 })
                 ->rawColumns(['total','tanggal','harga'])
                 ->make(true);
@@ -107,6 +108,38 @@ class LaporanPenjualanController extends Controller
 
         // dd($totalTransaksi);
         return view('pages.user.transaction.laporan',compact('totalTransaksi'));
+    }
+    public function TransactionLaporanMonth(Request $request)
+    {
+       
+        
+        $bulan = $request->bulan;
+        if(request()->ajax()){
+          
+            $transaksi = Transaction::where('user_id',Auth::user()->id)->whereMonth('tanggal', $bulan)->whereYear('tanggal',$request->tahun)->with('user','product')->latest()->get();
+            // dd($transaksi);
+            return Datatables::of($transaksi)
+                ->addIndexColumn()
+                ->addColumn('total', function ($data) {
+
+                    return moneyFormat($data->total);
+                })
+                ->addColumn('harga', function ($data) {
+
+                    return moneyFormat($data->product->harga);
+
+                })
+                ->addColumn('tanggal', function ($data) {
+
+                    return dateID($data->tanggal);
+                })
+                ->rawColumns(['total','tanggal','harga'])
+                ->make(true);
+        }
+        $totalTransaksi = Transaction::where('user_id',Auth::user()->id)->whereMonth('tanggal', $bulan)->whereYear('tanggal',$request->tahun)->sum('total');
+
+        // dd($totalTransaksi);
+        return view('pages.user.transaction.laporan-month',compact('totalTransaksi'));
     }
 
     public function TransaksiPdf()

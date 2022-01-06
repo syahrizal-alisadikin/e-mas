@@ -69,6 +69,7 @@ Route::prefix('user')
             // Penjualan Product
             Route::resource('laporan-penjualan-product',LaporanPenjualanController::class);
             Route::get('laporan-penjualan-product-date',[LaporanPenjualanController::class,'TransactionLaporan'])->name('transaction-laporan');
+            Route::get('laporan-penjualan-product-month',[LaporanPenjualanController::class,'TransactionLaporanMonth'])->name('transaction-laporan-month');
             Route::get('transaksi-download-pdf',[LaporanPenjualanController::class,'TransaksiPdf'])->name('transaksi-download-pdf');
             Route::get('transaksi-date-download-pdf',[LaporanPenjualanController::class,'TransaksiPdfdate'])->name('transaksi-date-download-pdf');
             // Pemsaran Kegiatan
@@ -89,6 +90,7 @@ Route::prefix('mitra')
             Route::resource('products-mitra',MitraProductController::class);
             Route::resource('transactions',TransactionController::class);
             Route::get('transactions-date',[TransactionController::class,'TransactionLaporan'])->name('transactions-mitra');
+            Route::get('transactions-month',[TransactionController::class,'TransactionLaporanMonth'])->name('transactions-mitra-month');
             Route::POST('transactions-rb',[TransactionController::class,'TransaksiDownloadPdf'])->name('transaksi-rb-download-pdf');
             Route::POST('transactions-rb-date',[TransactionController::class,'TransaksiDownloadPdfDate'])->name('transaksi-rb-download-date');
             Route::resource('pemasaran-mitra',PemasaranController::class);
@@ -107,6 +109,7 @@ Route::prefix('admin')
             Route::get('rumah-bumn/transaksi/{id}/all',[RumahBUMNController::class,'ShowTransaksiAll'])->name('rumah-bumn.transaksi.all');
             Route::get('rumah-bumn/transaksi/detail/{id}/{user}',[RumahBUMNController::class,'DetailTransaksi'])->name('rumah-bumn.detailtransaksi');
             Route::get('rumah-bumn/transaksi/detail-all/{id}',[RumahBUMNController::class,'DetailTransaksiAll'])->name('rumah-bumn.detailtransaksi.all');
+            Route::get('rumah-bumn/transaksi/detail-Month/{id}',[RumahBUMNController::class,'DetailTransaksiMonth'])->name('rumah-bumn.detailtransaksi.month');
             Route::get('mitra-admin',[RumahBUMNController::class,'MitraAdmin'])->name('mitra-admin');
             Route::POST('transactions-admin',[TransactionController::class,'TransaksiDownloadPdf'])->name('transaksi-admin-download-pdf');
            
